@@ -121,6 +121,7 @@ public class Markovist {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		app.corpus.generateNgrams( app.states );
 		app.corpus.someOutput();
 		System.out.println( "whee" );
 

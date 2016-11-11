@@ -24,6 +24,7 @@ public class Corpus {
 
 	String location;
 	Document corpus;
+	Integer corpusSentenceCount;
 	/**
 	 * 
 	 */
@@ -35,6 +36,7 @@ public class Corpus {
 		FileReader fr = new FileReader( this.location );
 		byte[] bytes = Files.readAllBytes(Paths.get(this.location));
 		this.corpus = new Document( new String( bytes, StandardCharsets.US_ASCII ) );
+		this.corpusSentenceCount = this.corpus.sentences().size();
 	}
 	
 	public void someOutput() {
