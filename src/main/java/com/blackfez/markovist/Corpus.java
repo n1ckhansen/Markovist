@@ -48,4 +48,9 @@ public class Corpus {
 			System.out.println("");
 		}
 	}
+
+	public void generateNgrams(Integer states) {
+		// TODO Auto-generated method stub
+		
+	}
 }
