@@ -13,6 +13,11 @@ import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.concurrent.ThreadLocalRandom;
 
 import edu.stanford.nlp.simple.*;
 
@@ -25,11 +30,15 @@ public class Corpus {
 	String location;
 	Document corpus;
 	Integer corpusSentenceCount;
+	List<String> sentenceStarters;
+	Map<String,List<Ngram>> concordance;
 	/**
 	 * 
 	 */
 	public Corpus(String location) {
 		this.location = location;
+		this.sentenceStarters = new ArrayList<String>();
+		this.concordance = new HashMap<String,List<Ngram>>();
 	}
 	
 	public void loadDocument() throws IOException {
@@ -50,7 +59,25 @@ public class Corpus {
 	}
 
 	public void generateNgrams(Integer states) {
-		// TODO Auto-generated method stub
-		
+		for( Sentence sentence : this.corpus.sentences() ) {
+			Boolean isFirstWord = true;
+			List<String> comparer = sentence.words();
+			while( sentence.words().iterator().hasNext() ) {
+				String word = sentence.words().iterator().next();
+				if( isFirstWord ) {
+					this.sentenceStarters.add(word);
+					isFirstWord = false;
+				}
+				Ngram ngram = new Ngram( comparer.remove(0), comparer, comparer.size()!=0);
+				if( !this.concordance.containsKey( word ) ) 
+					this.concordance.put(word, new ArrayList<Ngram>() );
+				this.concordance.get(word).add(ngram);
+			}
+		}
+	}
+	
+	public String startSentence() {
+		int i = ThreadLocalRandom.current().nextInt( 0, this.sentenceStarters.size() + 1 );
+		return this.sentenceStarters.get( i );
 	}
 }

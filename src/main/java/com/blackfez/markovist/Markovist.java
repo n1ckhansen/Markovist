@@ -123,6 +123,9 @@ public class Markovist {
 		}
 		app.corpus.generateNgrams( app.states );
 		app.corpus.someOutput();
+		for( int i = 0; i < 50; i++) {
+			System.out.println( app.corpus.startSentence());
+		}
 		System.out.println( "whee" );
 
 	}
