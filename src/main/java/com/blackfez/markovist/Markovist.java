@@ -122,9 +122,13 @@ public class Markovist {
 			e.printStackTrace();
 		}
 		app.corpus.generateNgrams( app.states );
-		app.corpus.someOutput();
+		//app.corpus.someOutput();
 		for( int i = 0; i < 50; i++) {
-			System.out.println( app.corpus.startSentence());
+			String word = app.corpus.startSentence();
+			System.out.print( word );
+			Ngram ngram = app.corpus.getNgramForWord( word );
+			System.out.println( ngram.getTokensByState(app.states) );
+
 		}
 		System.out.println( "whee" );
 

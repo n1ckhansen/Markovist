@@ -15,6 +15,7 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ThreadLocalRandom;
@@ -61,19 +62,28 @@ public class Corpus {
 	public void generateNgrams(Integer states) {
 		for( Sentence sentence : this.corpus.sentences() ) {
 			Boolean isFirstWord = true;
-			List<String> comparer = sentence.words();
-			while( sentence.words().iterator().hasNext() ) {
-				String word = sentence.words().iterator().next();
+			LinkedList<String> comparer = new LinkedList( sentence.words() );
+			while( !comparer.isEmpty() ) {
+				String word = comparer.poll();
 				if( isFirstWord ) {
 					this.sentenceStarters.add(word);
 					isFirstWord = false;
 				}
-				Ngram ngram = new Ngram( comparer.remove(0), comparer, comparer.size()!=0);
+				Ngram ngram = new Ngram( word, comparer,comparer.isEmpty() );
 				if( !this.concordance.containsKey( word ) ) 
 					this.concordance.put(word, new ArrayList<Ngram>() );
 				this.concordance.get(word).add(ngram);
 			}
 		}
+	}
+	
+	public Ngram getNgramForWord( String word ) {
+		System.out.println("\tgetting ngram for '" + word + "'");
+		List<Ngram> ngrams = this.concordance.get(word);
+		System.out.println("\tthere are " + ngrams.size() + " ngrams for this word.");
+		int i = ThreadLocalRandom.current().nextInt( 0, ngrams.size() );
+		System.out.println("\twe've picked the ngram in position " + i +"'");
+		return ngrams.get( i );
 	}
 	
 	public String startSentence() {
