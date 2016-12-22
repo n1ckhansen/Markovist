@@ -37,28 +37,20 @@ public class Ngram {
 	}
 	
 	public Ngram( String word, List<String> tokens, Boolean isEnd ) {
-		System.out.println("\tSo we've hit the right constructor");
+		this.tokens = new ArrayList<String>();
 		this.setWord( word );
-		System.out.println( "\tWe've put '" + this.getWord() + "' in this.word");
-		this.setTokens(tokens);
-		System.out.println( "\tWe've put '" + this.getTokens() + "' in this.tokens");
-		System.out.println( "\tWhich would evaluate to '" + String.join( " ", this.getTokens() + "'" ) );
+		for( String token : tokens ) {
+			this.addToken( token );
+		}
 		this.setSentenceEnd(isEnd);
-		System.out.println("\tand we set isEnd to '" + this.isSentenceEnd() + "'");
 	}
 	
 	public void addToken( String token ) {
-		System.out.println("Adding a token, '" + token + "'");
-		System.out.println( "Before count is " + this.getTokens().size());
 		this.getTokens().add( token );
-		System.out.println( " and after is " + this.getTokens().size());
 	}
 	
 	public void addTokens( List<String> tokens ) {
-		System.out.println("Adding tokens, '" + tokens + "'");
-		System.out.println( "Before count is " + this.getTokens().size());
 		this.getTokens().addAll( tokens );
-		System.out.println( " and after is " + this.getTokens().size());
 	}
 	
 	public List<String> getTokens() {
@@ -66,11 +58,7 @@ public class Ngram {
 	}
 	
 	public String getTokensByState( int count ) {
-		System.out.println("\tWe're getting " + count + " tokens");
-		System.out.println("\tThis ngram has " + this.getTokens().size() + " tokens.");
 		if( this.getTokens().size() >= count ) {
-			System.out.println("\tthere are at least as many tokens as states we're asking for");
-			System.out.println("\t we're returning '" + String.join("0",this.getTokens().subList(0, count) ) + "'");
 			return String.join(" ", this.getTokens().subList(0, count ) );
 		}
 		return String.join(" ", this.getTokens() );

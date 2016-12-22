@@ -71,11 +71,8 @@ public class Corpus {
 	}
 	
 	public Ngram getNgramForWord( String word ) {
-		System.out.println("\tgetting ngram for '" + word + "'");
 		List<Ngram> ngrams = this.concordance.get(word);
-		System.out.println("\tthere are " + ngrams.size() + " ngrams for this word.");
 		int i = ThreadLocalRandom.current().nextInt( 0, ngrams.size() );
-		System.out.println("\twe've picked the ngram in position " + i +"'");
 		return ngrams.get( i );
 	}
 	

@@ -42,6 +42,9 @@ public class Markovist {
 					this.printHelp(true);
 				}
 			}
+			else {
+				this.states = 2;
+			}
 			if( cmd.getArgs().length != 1 ) {
 				if( cmd.getArgs().length == 0 )
 					System.out.println( "Markovist requires a directory to a collection of text file[s].");
@@ -123,14 +126,15 @@ public class Markovist {
 		}
 		app.corpus.generateNgrams( app.states );
 		//app.corpus.someOutput();
+		String word = app.corpus.startSentence();
+		System.out.print( word + " " );
 		for( int i = 0; i < 50; i++) {
-			String word = app.corpus.startSentence();
-			System.out.print( word );
 			Ngram ngram = app.corpus.getNgramForWord( word );
-			System.out.println( ngram.getTokensByState(app.states) );
-
+			System.out.print( ngram.getTokensByState(app.states) + " " );
+			word = ngram.getTokens().get( app.states - 1 );
+			if( word == "." )
+				word = app.corpus.startSentence();
 		}
-		System.out.println( "whee" );
 
 	}
 
